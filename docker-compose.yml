@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14.2
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: testpuzzle_development
+      POSTGRES_USER: jeko
+      POSTGRES_PASSWORD: 123456
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && rails server -b 0.0.0.0"
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgres://jeko:123456@db:5432/testpuzzle_development
+      RAILS_MASTER_KEY: ea5b45ce76a2cca9a25d63d6312ef9ca
+volumes:
+  db-data:
