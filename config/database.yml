@@ -4,7 +4,7 @@ default: &default
   timeout: 5000
   username: jeko
   password: 123456
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: 5
 
 development:
   <<: *default
